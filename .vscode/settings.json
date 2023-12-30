@@ -62,6 +62,20 @@
     "limits": "cpp",
     "algorithm": "cpp",
     "ostream": "cpp",
-    "new": "cpp"
+    "new": "cpp",
+    "__node_handle": "cpp",
+    "__locale": "cpp",
+    "vector": "cpp",
+    "iomanip": "cpp",
+    "istream": "cpp",
+    "__bit_reference": "cpp",
+    "__split_buffer": "cpp",
+    "string": "cpp",
+    "ios": "cpp",
+    "cstring": "cpp",
+    "bitset": "cpp",
+    "unordered_map": "cpp",
+    "cctype": "cpp",
+    "fstream": "cpp"
   }
 }

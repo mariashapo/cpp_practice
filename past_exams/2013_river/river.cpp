@@ -56,9 +56,12 @@ void print_scene(char **scene) {
 }
 
 /* helper function which removes carriage returns and newlines from strings */
+// this function basically cleans up the junk remainders and places /0
 void filter(char *line) {
+  // starting with some *line
   while (*line) {
     if (*line >= ' ')
+    // space is the first ascii character
       line++;
     else 
       *line = '\0';
@@ -75,14 +78,15 @@ bool add_to_scene(char **scene, int row, int col, const char *filename) {
 
   int start_col = col;
   char line[512];
+  // the line we are getting from the input file
   in.getline(line,512);
   filter(line);
   while (!in.fail()) {
     for (int n=0; n<strlen(line); n++) {
       if (row >= SCENE_HEIGHT)
-	return false;
+	      return false;
       if (col >= SCENE_WIDTH)
-	break;
+	      break;
       scene[row][col++] = line[n];
     }
     row++;
@@ -275,6 +279,7 @@ char** make_river_scene(const char* left, const char* boat){
 
   return scene;
 }
+
 int load_boat(char* left, const char* target){
   // remove OR add target to the left bank and place target on the boat
 
