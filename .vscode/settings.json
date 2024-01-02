@@ -76,6 +76,7 @@
     "bitset": "cpp",
     "unordered_map": "cpp",
     "cctype": "cpp",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "initializer_list": "cpp"
   }
 }

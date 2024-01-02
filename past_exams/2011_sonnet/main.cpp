@@ -32,6 +32,7 @@ int main() {
 
   cout << endl;
 
+  
   // Question 1
   cout << "====================== Question 1 ======================" << endl << endl;
 
@@ -43,7 +44,7 @@ int main() {
   cout << count_words("Shall I compare thee to a Summer's day?") << " words" << endl;
 
   cout << endl;
-
+  
   // Question 2
   cout << "====================== Question 2 ======================" << endl << endl;
 
@@ -67,7 +68,7 @@ int main() {
   cout << "PAUSE has phonetic ending " << phonetics << endl;
 
   cout << endl;
-
+  
   // Question 3
   cout << "====================== Question 3 ======================" << endl << endl;
 
