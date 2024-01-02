@@ -41,11 +41,12 @@ int main() {
   cout << "====================== Question 2 ======================" << endl << endl;
 
   /* uncomment this if you prefer to start with a simple test case */
-  /*
-     char mylabel = mirror_label(board, height, width, 2, 15);   
-     assert(mylabel == 'B');     
-   */
 
+    char mylabel = mirror_label(board, height, width, 2, 15);
+    cout << mylabel;   
+    assert(mylabel == 'B');     
+
+  
   int coords[][2] = { {2,15}, {4, 7}, {7, 24}, {9,15}, {4, 24}, {5, 3} };
   char expected[] = { 'B', 'C', 'S', 'T', '\0', '\0' };
 
@@ -62,19 +63,19 @@ int main() {
   cout << endl;
 
   deallocate_2D_array(board, height);
-
+  
   cout << "====================== Question 3 ======================" << endl << endl;
-
-  /* uncomment this if you prefer to start with a simple test case */
-  /*
+  
+  /* uncomment this if you prefer to start with a simple test case 
+  
      board = load_board("biscuit.txt", height, width);
      assert(board);
      int last_row, last_col;
      success = shoot(board, height, width, message, last_row, last_col);
-     print_board(board);
+     print_board(board, height, width);
      assert(success == true);
      assert(last_row == 9 && last_col == 31);
-   */
+  */
 
   struct TestCase {
     char filename[512];
@@ -122,7 +123,7 @@ int main() {
   board = load_board("biscuit-plan.txt", height, width);
   assert(board);
   cout << "Done!" << endl;
-
+  print_board(board, height, width); 
   cout << "Solving...";
   success = solve(board, height, width, "BISCUIT");
   cout << " Done!" << endl;
@@ -155,6 +156,6 @@ int main() {
   cout << endl;
 
   cout << "========================= FIN ==========================" << endl << endl;
-  
+
   return 0;
 }

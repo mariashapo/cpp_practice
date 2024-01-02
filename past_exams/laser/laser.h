@@ -9,3 +9,12 @@ enum Direction {NORTH, EAST, SOUTH, WEST};
 
 /* add your own function and type declarations here */
 
+const char FIGURES[] = {'/', '\\', ' ', '\0'};
+
+bool find_laser(char** board, int height, int width, int& row);
+
+char mirror_label(char** board, int height, int width, int row, int column);
+
+bool shoot(char** board, int height, int width, char* message, int& last_row, int& last_col);
+
+bool solve(char** board, int height, int width, const char* target);
