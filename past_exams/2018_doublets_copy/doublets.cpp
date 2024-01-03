@@ -125,7 +125,7 @@ bool find_chain(const char* start_word, const char* target_word, const char** an
       return false;
    }
    cout << position << " ";
-   position = position%strlen(start_word);
+   position = position % strlen(start_word);
    
    // loop through all the possible transformations for the given index
    for (char c = 'A'; c<='Z'; c++){

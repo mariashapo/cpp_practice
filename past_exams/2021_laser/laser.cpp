@@ -295,8 +295,7 @@ bool solve(char** board, int height, int width, const char* target){
     }
   }
   
-  cout << "row:"  << last_row<<"col: " << last_col << " "<< message << endl << board[last_row][last_col] << endl;
-  print_board(board, height, width);
+  //print_board(board, height, width);
 
   if (board[last_row][last_col] != '?'){
     // means bumped into the border
@@ -304,14 +303,10 @@ bool solve(char** board, int height, int width, const char* target){
   }
   int message_len = strlen(message);
   if (message[message_len - 1]!=target[message_len - 1]){
-    cout << "WRONG LETTERS:" << message << "and" << target << endl;
     return false;
   }
 
-  char next_char = target[strlen(message)];
-
   for (const char* fig = FIGURES; *fig; fig++){
-    cout << "<"<< *fig << ">"<< endl;
     // for all the possible next moves
     board[last_row][last_col] = *fig;
     clean_board(board, height, width);
