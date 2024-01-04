@@ -20,7 +20,7 @@ int main()
 
   found = dictionary_search("WHEAT");
   cout << "The word 'WHEAT' is " << (found ? "" : "NOT ") << "found in the dictionary." << endl << endl;
-  
+ 
   cout << "====================== Question 1 ======================" << endl << endl;
 
   bool valid = valid_step("WHEAT", "CHEAT");
@@ -37,7 +37,7 @@ int main()
 
   valid = valid_step("TEA", "SEA");
   cout << "From 'TEA' to 'SEA' is " << (valid ? "" : "NOT ") << "a valid step." << endl << endl;
-  
+   
   cout << "====================== Question 2 ======================" << endl << endl;
 
   const char *wheat_chain[] = { "WHEAT", "CHEAT", "CHEAP", "CHEEP", "CREEP", "CREED", "BREED", "BREAD", NULL };
@@ -46,7 +46,7 @@ int main()
   bool success = display_chain(wheat_chain, cout);
   cout << "Output " << (success ? "successful" : "failed") << "!" << endl;
   cout << endl;
-
+  
   const char *tea_chain[] = {"TEA", "SEA", "SET", "SOT", "HOT", NULL };
 
   cout << "Writing 4-step chain from 'TEA' to 'HOT' to file 'chain.txt'..." << endl;
@@ -54,7 +54,7 @@ int main()
   success = display_chain(tea_chain, out);
   cout << "Output " << (success ? "successful" : "failed") << "!" << endl;
   out.close();
-
+  
   cout << "====================== Question 3 ======================" << endl << endl;
 
   valid = valid_chain(wheat_chain);
@@ -64,6 +64,8 @@ int main()
   
   valid = valid_chain(repeat_chain);
   cout << "The chain 'WHEAT->CHEAP->WHEAT->CHEAP' is " << (valid ? "" : "NOT ") << "a valid chain." << endl << endl;
+
+  cout << num_steps(repeat_chain) << endl;
 
   const char *short_chain[] = { "WHEAT", NULL };
   valid = valid_chain(short_chain);
@@ -120,17 +122,17 @@ int main()
   cout << endl;
 
 
-  /*
+
   cout << "==================== Bonus Challenge ===================" << endl << endl;
 
   // change this to reflect the number of steps required to solve your clue
   #define YOUR_STEPS 8
   // *INSERT CLUE HERE* (e.g. Can you make BREAD from FLOUR in up to 8 steps?)
-  success = find_chain("*YOUR START WORD HERE*", "*YOUR TARGET WORD HERE*", answer, YOUR_STEPS);
+  success = find_chain("BREAD", "FLOUR", answer, YOUR_STEPS);
 
   if (success)
     display_chain(answer, cout);
-  */
+
   
   return 0;
 }

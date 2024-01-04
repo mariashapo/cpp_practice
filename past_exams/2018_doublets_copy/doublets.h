@@ -9,13 +9,18 @@ bool dictionary_search(const char *word);
 
 /* add your function prototypes here */
 
+//Q1
 bool valid_step(const char* current_word, const char* next_word);
 
-bool display_chain(const char** chain, ofstream& out);
-bool display_chain(const char** chain, ostream& out);
+//Q2
+bool display_chain(const char** chain, ostream& output);
 
-bool valid_chain(const char** chain);
+//Q3
+bool valid_chain(const char** wheat_chain);
 
-bool find_chain(const char* start_word, const char* target_word, const char** answer_chain, int max_steps, char* next_word = nullptr, int index = 0);
+//Q4
+bool find_chain(const char* start_word, const char* target_word, const char** answer_chain, int max_steps);
+
+int num_steps(const char** answer_chain);
 
 #endif
