@@ -80,7 +80,7 @@ int main() {
   else 
     cout << "is an invalid route (" << error_description(result) << ")" << endl;
   cout << endl;
-  /*
+
 
   // invalid route because of line hopping between stations
   strcpy(route, "N,N,N,N,N,NE,W");
@@ -114,6 +114,6 @@ int main() {
   else 
     cout << "is an invalid route (" << error_description(result) << ")" << endl;
   cout << endl;
-  */
+
   return 0;
 }

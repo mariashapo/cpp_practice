@@ -196,6 +196,35 @@ char get_symbol_for_station_or_line(const char* name){
   return ' ';
 }
 
+bool get_station_name(const char station_symbol, char* destination){
+  if (!isalnum(station_symbol)){
+    return false;
+  }
+
+  ifstream in;
+  char line[512];
+
+  in.open("stations.txt");
+
+  if (!in.good()){
+    return false;
+  }
+
+  in.getline(line, 512 -1);
+  
+  while (!in.eof()){
+    if (*line == station_symbol){
+      in.close();
+      // we found the line/station we were looking for
+      strcpy(destination, line+2);
+      return true;
+    }
+    in.getline(line, 512 -1);
+  }
+  in.close();
+  return false;
+}
+
 //strcpy(route, "S,SE,S,S,E,E,E,E,E,E,E,E,E,E,E");
 //int result = validate_route(map, height, width, "Oxford Circus", route, destination);
 // Direction string_to_direction(const char *token)
@@ -226,16 +255,41 @@ bool get_next_direction(char* direction, char*& route){
 }
 
 // const char *strings[] = {"N", "S", "W", "E", "NE", "NW", "SE", "SW"};
-bool make_move(){
+bool make_move(Direction dir, int &row, int& col, int height, int width){
+  switch(dir){
+    case N: row--; break;
+    case S: row++; break;
+    case W: col--; break;
+    case E: col++; break;
+    case NE: row--; col++; break;
+    case SE: row++; col++; break;
+    case NW: row--; col--; break;
+    case SW: row++; col--; break;
+    default: return false;
+  }
+  if (row<0 || col<0 || row>=height || col>=width){
+    return false;
+  }
+  return true;
+}
 
+bool opposite_moves(Direction first, Direction second){
+  int row = 1, col = 1;
+  make_move(first, row, col, 3, 3);
+  make_move(second, row, col, 3, 3);
+  if (row == 1 && col == 1){
+    return true;
+  }
+  return false;
 }
 
 int validate_route(char** map, int height, int width, const char* start_station, char* route, char* destination){
-  int row, col;
-  char direction_str[3];
-  Direction direction;
+  int row, col, row_before, col_before, count_changes = 0;
+  char direction_str[3], previous_line_char;
+  Direction direction, direction_before;
   // input parameter start station must be valid
   char start_symbol = get_symbol_for_station_or_line(start_station);
+  bool starting_move_from_station = false;
 
   if (!isalnum(start_symbol)){
     return ERROR_START_STATION_INVALID;
@@ -245,15 +299,57 @@ int validate_route(char** map, int height, int width, const char* start_station,
   }
 
   while (*route){
+
+    starting_move_from_station = isalnum(map[row][col]);
+
     if (!get_next_direction(direction_str, route)){
       return ERROR_INVALID_DIRECTION;
     }
-    //cout << direction_str << endl;
-    // make one move
+    // Keep track of the line before moving when not at a station
+    if (!starting_move_from_station){ // if not a station store the previous direction
+      direction_before = direction; 
+      previous_line_char = map[row][col];
+    }
+
     direction = string_to_direction(direction_str);
 
+    if (direction==INVALID_DIRECTION){
+      return ERROR_INVALID_DIRECTION;
+    }
+
+    // Store the previous location
+    row_before = row; col_before = col;
+    // attempt to make the move
+    if (!make_move(direction, row, col, height, width)){
+      return ERROR_OUT_OF_BOUNDS;
+    }
+    bool arrived_to_station = isalnum(map[row][col]);
+    if (map[row][col]==' '){
+      return ERROR_OFF_TRACK;
+    }
+    
+    if (map[row][col]!=map[row_before][col_before])
+    {
+      if (!starting_move_from_station && !arrived_to_station){
+        return ERROR_LINE_HOPPING_BETWEEN_STATIONS;
+      }
+      else if(!arrived_to_station && previous_line_char != map[row][col]){
+        count_changes++;
+      }
+    }
+    // if we have not starting from a station
+    if (!starting_move_from_station){
+      if (opposite_moves(direction_before, direction)){
+        return ERROR_BACKTRACKING_BETWEEN_STATIONS;
+      }
+    }
   }
-  return 0;
+
+  // obtain the station name at the current position
+  if (!get_station_name(map[row][col], destination)){
+    return ERROR_ROUTE_ENDPOINT_IS_NOT_STATION;
+  }
+  return count_changes;
 }
 
 /*
@@ -263,21 +359,18 @@ name
 [X] The input parameter route should be a character string de-
 scribing a sequrence of directions (i.e. “N”, “S”, “W”, “E”,
 “NE”, “NW”, “SE”, “SW”) separated by commas.
-[ ] The passenger journey begins on the ASCII Tube Map at the
-coordinates of start station, and follows at each journey
-step the directions given in the route, moving one map square
-at a time. If this route strays outside the bounds of the map,
+[X] If this route strays outside the bounds of the map,
 return ERROR OUT OF BOUNDS. If the route strays off a station
 or line/track, return ERROR OFF TRACK.
-[ ] Line changes can only take place at stations (since train doors
+
+[X] Line changes can only take place at stations (since train doors
 are firmly closed when travelling between stations for safety
-reasons). If an attempt is made to change lines outside of a
-station, return ERROR LINE HOPPING BETWEEN STATIONS.
-[ ] An attempt to retrace a journey step outside of a station
+reasons).
+[X] An attempt to retrace a journey step outside of a station
 is not permitted (since trains travel from station to station
 without reversing). If an attempt is made to do this, return
 ERROR BACKTRACKING BETWEEN STATIONS.
-[ ] The endpoint of the passenger journey should be a station. If
+[X] The endpoint of the passenger journey should be a station. If
 not, return ERROR ROUTE ENDPOINT IS NOT STATION.
 */
 
