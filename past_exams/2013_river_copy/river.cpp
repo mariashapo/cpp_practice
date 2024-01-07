@@ -438,10 +438,6 @@ int find_solution(char* left, char* answer, int move_count){
   char left_before_move[8], previous_move[3];
   int result;
   if (move_count == 0){
-    if (answer[0]!='\0'){
-      cout << answer << endl;
-      cout << "interesting" << endl;
-    }
     answer[0] = '\0';
   }
   // success termination check
