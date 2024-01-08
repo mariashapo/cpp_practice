@@ -86,6 +86,7 @@ int compute_score(const char* played_tiles, ScoreModifier score_modifiers[]){
             case DOUBLE_WORD_SCORE: score += tile_score(played_tiles[i]); multiplier *= 2; break;
         }
     }
+    score = score*multiplier;
     if (strlen(played_tiles)==7){
         score+=50;    
     }
