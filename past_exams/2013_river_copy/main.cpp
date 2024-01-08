@@ -73,7 +73,6 @@ int main() {
   cout << "=================== Bonus Challenge ====================" << endl << endl;
 
   char answer[512];
-  answer[0]='\0';
   strcpy(left, "MMMCCCB");
   if (find_solution(left, answer)==VALID_GOAL_STATE)
     cout << "Solution is " << answer << endl;

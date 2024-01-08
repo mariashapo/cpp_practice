@@ -123,5 +123,12 @@ const char *status_description(int code) {
 
 
 /* insert your functions here */
+/*
+  status = status && add_to_scene(scene, 0, 0, "bank.txt");
 
-// make a river scene based on the characters on the left bank and on the boat
+  status = status && add_to_scene(scene, 0, 52, "bank.txt");
+
+  status = status && add_to_scene(scene, 3, 30, "sun.txt");
+
+  status = status && add_to_scene(scene, 19, 19, "river.txt");
+*/
