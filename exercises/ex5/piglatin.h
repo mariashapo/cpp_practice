@@ -10,6 +10,7 @@ int findFirstVowel(const char* str);
 
 void translateWord(const char* english, char* translated);
 
-void translateStream(std::ifstream& input, std::ostream& cout);
+//void translateStream(std::ifstream& input, std::ostream& cout);
+void translateStream(std::istream& input, std::ostream& output);
 
 #endif

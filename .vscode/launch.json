@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/mariiashapo/Library/CloudStorage/OneDrive-Personal/Computing/CPP_revision/past_exams/2009_maze",
-      "program": "/Users/mariiashapo/Library/CloudStorage/OneDrive-Personal/Computing/CPP_revision/past_exams/2009_maze/build/Debug/outDebug"
+      "cwd": "/Users/mariiashapo/Library/CloudStorage/OneDrive-Personal/Computing/CPP_revision/past_exams/2011_sonnet",
+      "program": "/Users/mariiashapo/Library/CloudStorage/OneDrive-Personal/Computing/CPP_revision/past_exams/2011_sonnet/build/Debug/outDebug"
     }
   ]
 }

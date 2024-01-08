@@ -1,116 +1,120 @@
-#include <cstring>
-#include <cctype>
 #include <iostream>
+#include <cctype>
+#include <cstring>
+#include <fstream>
 #include "piglatin.h"
 
-using namespace std;
+/* QUESTION 1 */
 
-bool isVowel(const char ch, int position, int length){
-    for (const char* vow = VOWELS; *vow; vow++){
-        if (tolower(ch) == *vow){
-            return true;
-        }
-        else if (tolower(ch)=='y'&& position!=0 && position < length){
-            return true;
-        }
+bool isVowel(char letter, int position, int length) {
+    if (letter == 'a' ||  letter == 'A') {
+        return true;
     }
+    if (letter == 'e' ||  letter == 'E') {
+        return true;
+    }
+    if (letter == 'i' ||  letter == 'I') {
+        return true;
+    }
+    if (letter == 'o' ||  letter == 'O') {
+        return true;
+    }
+    if (letter == 'u' ||  letter == 'U') {
+        return true;
+    }
+    if (letter == 'y' && position != length - 1 && position != 1) {
+        return true;
+    }
+    
     return false;
+}  
+
+int findFirstVowel(const char* word) {
+int length = strlen(word);
+int position = 1;
+
+while (*word != '\0') {
+    if (isVowel(*word, position, length)) {
+        return position;
+    }
+    position++;
+    word++;
 }
 
-int findFirstVowel(const char* str){
-    int length = strlen(str);
-    const char* s;
-    for (int position = 0; position < length; position++){
-        s = str + position;
-        if (isVowel(*s, position, length)){
-            return position;
+return -1;
+}
+
+
+/* QUESTION 2 */
+
+void translateWord(const char* english, char piglatin []) {
+    int positionfirstVowel = findFirstVowel(english);
+    bool firstLetterCapital = false;
+    char lettersToMove[100];
+    int index = 0;
+    
+    if (isupper(*english)) {
+        firstLetterCapital = true;
+    }
+    
+    if (isdigit(*english)) {
+        strcpy(piglatin, english);
+    }
+    else if (positionfirstVowel == -1) {
+        strcpy(piglatin, english);
+        strcat(piglatin, "ay");
+    }
+    else if (positionfirstVowel == 1) {
+        strcpy(piglatin, english);
+        strcat(piglatin, "way");
+    }
+    else {
+        for (index = 0; index < positionfirstVowel - 1; index++) {
+            lettersToMove[index] = *english;
+            english++;
         }
-    }
-    return -1;
-}
-
-void clear_str(char* translated){
-    for (char* t = translated; *t; t++){
-        *t = '\0';
-    }
-}
-
-void translateWord(const char* english, char* translated){
-    int first_vow;
-    int length = strlen(english);
-    clear_str(translated);
-    first_vow = findFirstVowel(english);
-    if (first_vow == 0){
-        strcpy(translated,english);
-        // add "way" after english
-        strcpy(translated+length,"way");
-    }
-    else if (strcmp(english,"")==0 || length == 0){
-        translated[0] ='\0';
-    }
-    else if (isdigit(english[0])){
-        strcpy(translated,english);
-    }
-    else if (first_vow == -1 && isalpha(english[0])){
-        strcpy(translated,english);
-        strcpy(translated+length,"ay"); 
-    }
-    else if (length > 0 && first_vow >0){
-        int len_to_add = length - first_vow;
-        strncpy(translated, english + first_vow, len_to_add);
-        strncat(translated, english, first_vow);
-        strcat(translated, "ay");
-        if (isupper(english[0])){
-            translated[0] = toupper(translated[0]);
-            translated[len_to_add] = tolower(translated[len_to_add]);
+        lettersToMove[index] = '\0';
+        if (isupper(lettersToMove[0])) {
+            lettersToMove[0] = tolower(lettersToMove[0]);
         }
+        strcpy(piglatin, english);
+        strcat(piglatin, lettersToMove);
+        strcat(piglatin, "ay");
     }
-    else{
-        translated[0] ='\0';
+
+    if (firstLetterCapital == true) {
+        piglatin[0] = toupper(piglatin[0]);
     }
 }
 
-char punc_1(char* english){
+/* QUESTION 3 */
 
- if (ispunct(english[0])){
-    char punct = *english;
-    for (char* e = english; *(e+1); e++){
-        *e = *(e+1);
-    }
-    english[strlen(english)-1] = '\0';
-    return punct;
- }
- return '\0';
-}
-
-char punc_2(char* english){
-
- if (ispunct(english[strlen(english)-1])){
-    char punct = english[strlen(english)-1];
-    english[strlen(english)-1] = '\0';
-    return punct;
- }
- return '\0';
-}
-
-void translateStream(ifstream& input, ostream& output){
-    if (input.eof()){
-        cout << endl;
+void translateStream(std::istream& input, std::ostream& output) {
+    const int MAX_NUM_CHAR = 64;
+    char word[MAX_NUM_CHAR + 1];
+     char translatedWord[MAX_NUM_CHAR + 1];
+     char next;
+     int index = 0;
+    
+    input.get(next);
+    if (input.eof()) {
         return;
     }
-    char my_char;
-    char english[64];
-    char translated[64];
-
-    while (input.peek() == '\n' || input.peek() == ' '){
-        input.get(my_char);
-        cout << my_char;
+    
+    if (!isalpha(next) && !isdigit(next)) {
+        output << next;
+        translateStream(input, output);
+        return;
     }
 
-    input >> english;
-    char punc_before = punc_1(english);
-    char punc_after = punc_2(english);
-    translateWord(english, translated);
-    output << punc_before << translated << punc_after;
+    while (isalpha(next) || isdigit(next) || next == '-') {
+        word[index] = next;
+        index++;
+        input.get(next);
+    }
+    word[index] = '\0';
+
+    translateWord(word, translatedWord);
+    output << translatedWord << next;
     translateStream(input, output);
 }
